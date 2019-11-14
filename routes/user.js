@@ -6,15 +6,23 @@ const uid2 = require("uid2");
 
 const User = require("./../models/User");
 
-router.get("/api/user/log_in", async (req, res) => {
+router.post("/api/user/log_in", async (req, res) => {
   try {
     let email = req.body.email;
     let password = req.body.password;
 
-    const user = await User.find({ email: email, password: password });
+    // const user = await User.find({ email: email, password: password });
+    const user = await User.findOne({ email: email });
+
     if (user) {
+      console.log(user);
+      // console.log(user[0].hash);
       // CHECK authentification
-      let hash = SHA256(req.password + user.salt).toString(encBase64);
+      console.log("User hash : " + user.hash);
+      console.log("User salt : " + user.salt);
+
+      let hash = SHA256(req.body.password + user.salt).toString(encBase64);
+      console.log("Req hash : " + hash);
       if (user.hash === hash) {
         res.json(user);
       } else {
