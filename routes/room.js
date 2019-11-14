@@ -50,12 +50,20 @@ const createFilters = req => {
 };
 
 // /api/rooms?city=Paris
+
+// Filtrer par city
+// const filters = {};
+// if (req.query.city) {
+// filters.city = new RexExp(req.query.city,"i"};   // creer un filter avec regexp, case non sensitive
+// }
+
 router.get("/api/rooms", async (req, res) => {
   try {
     const filters = createFilters(req);
     // { city: 'Paris' }
     console.log(filters);
     // const search = Room.find(filters).populate("Room");
+    // const search = Room.find(filters);
     const search = Room.find(filters).populate();
 
     if (req.query.sort === "price-asc") {

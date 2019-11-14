@@ -31,10 +31,11 @@ router.get("/api/user/log_in", async (req, res) => {
 router.get("/api/user/:id", async (req, res) => {
   try {
     let id = req.params.id;
-    let token = req.headers.authorization;
+    // let token = req.headers.authorization; // => f.e "Bearer 8nUXhPNvvB4u10rZ" need to split to only get 8nUXhPNvvB4u10rZ
+    // On split et recupere l element de la liste a l index 1
+    let token = req.headers.authorization.split(" ")[1];
 
     const user = await User.findById(id);
-
     if (user) {
       if (user.token === token) {
         res.json(user);
